@@ -16,6 +16,7 @@ int main () {
 		//  Read message contents
 		std::string contents = s_recv (subscriber);
 		
+        // 处理接收到的数据
         // std::cout << "[" << address << "] " << contents << std::endl;
         if (address.compare("finish") == 0)
         {

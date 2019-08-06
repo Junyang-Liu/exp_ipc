@@ -23,7 +23,7 @@ int main () {
 		std::string contents = s_recv (subscriber);
 		
         // 处理接收到的数据
-        std::cout << "[" << address << "] " << contents << std::endl;
+        // std::cout << "[" << address << "] " << contents << std::endl;
         if(isFirstTime)
         {
             // 开始时间

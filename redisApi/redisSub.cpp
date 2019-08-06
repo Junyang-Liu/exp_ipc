@@ -24,8 +24,8 @@ int main () {
 
     while(run)
     {
-        // 这里应该是错误的用法
-	reply = (redisReply*)redisCommand(contextTmp,"SUBSCRIBE channelTmp");
+        // ToDo:这里应该是错误的用法,具体SUBSCRIBE返回reply要怎么用,返回数据的模式是什么样子的,待了解
+        reply = (redisReply*)redisCommand(contextTmp,"SUBSCRIBE channelTmp");
         if (reply->type == REDIS_REPLY_ARRAY && reply->elements == 3)
         {
             for (int i = 0; i < reply->elements; i++)

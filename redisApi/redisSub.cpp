@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include <sys/time.h>
 
 int main () {
     // 连接redis
@@ -20,9 +21,11 @@ int main () {
     printf("SUBSCRIBE--start run\n");
     redisReply *reply;
     bool run = true;
+
     while(run)
     {
-        reply = (redisReply*)redisCommand(contextTmp,"SUBSCRIBE channelTmp");
+        // 这里应该是错误的用法
+	reply = (redisReply*)redisCommand(contextTmp,"SUBSCRIBE channelTmp");
         if (reply->type == REDIS_REPLY_ARRAY && reply->elements == 3)
         {
             for (int i = 0; i < reply->elements; i++)
@@ -34,8 +37,18 @@ int main () {
                 }
                 else
                 {
+                    // 
+                    struct timeval start, end;
+                    gettimeofday( &start, NULL );
+                    printf("start : %d.%d\n", start.tv_sec, start.tv_usec);
+                    
                     printf(" no message... sleep 1 second... \n");
                     sleep(1);
+                    //
+                    
+                    gettimeofday( &end, NULL );
+                    printf("end   : %d.%d\n", end.tv_sec, end.tv_usec);
+                    
                 }
             }
         }

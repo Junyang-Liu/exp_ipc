@@ -2,6 +2,8 @@
 #include "zhelpers.hpp"
 #include <iostream>
 #include <string>
+#include <unistd.h>
+#include <sys/time.h>
 
 int main () {
     // 连接redis
@@ -17,11 +19,17 @@ int main () {
     }
     printf("redisConnect success\n");
 
-    //  Prepare our context and publisher
+    //  zmq 声明，绑定端口
     zmq::context_t context(1);
     zmq::socket_t publisher(context, ZMQ_PUB);
     publisher.bind("tcp://*:5563");
 
+    // 时间相关 开始时间打印下
+    struct timeval start, end;
+    gettimeofday( &start, NULL );
+    printf("start : %d.%d\n", start.tv_sec, start.tv_usec);
+
+    // 开始发数据 
     redisReply *reply;
     int index = 0;
     bool run = true;
@@ -29,7 +37,7 @@ int main () {
         std::string strTmp= "lrange TmpDataSet ";
         // 取100条
         strTmp += std::to_string(index) + " " + std::to_string(index+99);
-        printf("pub %s\n",strTmp.c_str());
+        //printf("pub %s\n",strTmp.c_str());
         reply = (redisReply*)redisCommand(contextTmp,(char*)strTmp.data());
         if (reply->element != NULL)
         {   for (int i = 0; i < reply->elements; ++i)
@@ -41,6 +49,9 @@ int main () {
         else
         {
             printf("reply element NULL\n");
+            // 结束时间打印下
+            gettimeofday( &end, NULL );
+            printf("end   : %d.%d\n", end.tv_sec, end.tv_usec);
         }
 
         if ( reply->elements < 100)

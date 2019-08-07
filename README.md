@@ -3,6 +3,7 @@
 IPC demo
 
 目录说明:
+
 	./shm (Linux 共享内存)
 		使用sys/shm.h库实现共享内存
 
@@ -25,6 +26,9 @@ IPC demo
 	./zmqApi/zmq_pb_redisdb (zmq pub/sub模式,使用hiredis读取数据,zmq发布)
 		psenvpub.cpp && psenvsub.cpp zmq pub/sub模式发数据,统计发布开始发布结束,开始接收数据到结束的时间
 
+	./redis5.xApi (redis stream的使用)
+		使用方法为: run.sh起XADD,XREAD的方法在notice.txt有说明
+
 
 具体实现效果:
 
@@ -46,6 +50,7 @@ Redis pub/sub:
 
 
 zmq pub/sub:
+
 	先起sub:
 
 ![Image text](https://s2.ax1x.com/2019/08/06/e48IaD.png)
@@ -59,5 +64,20 @@ zmq pub/sub:
 	sub显示:
 
 ![Image text](https://s2.ax1x.com/2019/08/06/e48OMt.png)
+
+
+Redis5.x XADD/XREAD 模式:
+
+	先开Redis XREAD:
+
+![Image text](https://s2.ax1x.com/2019/08/07/eIbX80.png)
+
+	开始XADD:
+
+![Image text](https://s2.ax1x.com/2019/08/07/eIbOCq.png)
+
+	XREAD:(返回的是接收到消息前阻塞时间)
+
+![Image text](https://s2.ax1x.com/2019/08/07/eIbq5n.png)
 
 

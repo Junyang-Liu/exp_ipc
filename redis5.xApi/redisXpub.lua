@@ -32,7 +32,7 @@ end
 tool.xpub = function(key, message)
 	if not key or not message then return end
 
-	local messageId = redis.call("xadd",key,"*","message",message)
+	local messageId = redis.call("xadd",key,"maxlen","1000","*","message",message)
 	return messageId
 end
 
@@ -41,7 +41,7 @@ local redis = {}
 
 redis.xpub = function()
 	local channel = KEYS[1] or "memberTmp"
-	local key=KEYS[2] or "TmpDataSet"
+	local key=ARGV[1] or "TmpDataSet"
 	local messageId = "no messageId"
 
 	local index = 0
